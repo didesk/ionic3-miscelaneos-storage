@@ -10,7 +10,7 @@ export class AjustesProvider {
     mostrarTutorial: true
   }
 
-  constructor(private platform: Platform ) {
+  constructor(private platform: Platform, private storage: Storage ) {
     console.log('Hello AjustesProvider Provider');
   }
 
@@ -20,6 +20,24 @@ export class AjustesProvider {
 
       if(this.platform.is('cordova')) {
         //dispositivo
+        console.log('inicializando storage');
+
+        this.storage.ready()
+          .then(()=>{
+            
+            console.log('storage listo');
+            
+            this.storage.get('ajustes')
+              .then((ajustes)=>{
+                if(ajustes){
+                  this.ajustes = ajustes;
+
+                }
+
+                resolve();
+              });
+
+          });
 
       } else {
         //escritorio
@@ -43,6 +61,11 @@ export class AjustesProvider {
 
     if(this.platform.is('cordova')) {
       //dispositivo
+      this.storage.ready()
+        .then(()=>{
+          this.storage.set('ajustes', this.ajustes );
+        });
+
     } else {
       //escritorio
       localStorage.setItem('ajustes', JSON.stringify(this.ajustes) );
