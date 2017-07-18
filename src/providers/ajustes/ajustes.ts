@@ -15,15 +15,26 @@ export class AjustesProvider {
   }
 
   cargarStorage(){
-       if(this.platform.is('cordova')) {
-      //dispositivo
-    } else {
-      //escritorio
-      if(localStorage.getItem('ajustes')){
-        this.ajustes = JSON.parse(localStorage.getItem('ajustes'));
+
+    let promesa = new Promise((resolve,reject)=>{
+
+      if(this.platform.is('cordova')) {
+        //dispositivo
+
+      } else {
+        //escritorio
+        if(localStorage.getItem('ajustes')){
+          this.ajustes = JSON.parse(localStorage.getItem('ajustes'));
+        }
+
+        resolve();
+      
       }
-     
-    }
+
+    });
+
+    return promesa;
+
 
 
   }
