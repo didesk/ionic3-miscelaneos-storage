@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, AlertController } from 'ionic-angular';
+import { LoadingController } from 'ionic-angular';
 
 
 /**
@@ -15,7 +16,7 @@ import { NavController, NavParams, AlertController } from 'ionic-angular';
 })
 export class Pagina2Page {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private alertCtrl: AlertController, public loadingCtrl: LoadingController) {
   }
 
   irPagina3(){
@@ -83,9 +84,18 @@ export class Pagina2Page {
     console.log('ionViewCanLeave');
 
     console.log('Espere dos segundos para salir');
+    
+    let loading = this.loadingCtrl.create({
+      content: 'Espere por favor...'
+    })
+
+    loading.present();
+    
     let promesa = new Promise((resolve, reject)=>{
 
       setTimeout(()=>{
+
+        loading.dismiss();
         resolve(true);
       }, 2000)
     })
