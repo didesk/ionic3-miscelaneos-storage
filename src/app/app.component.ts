@@ -16,7 +16,7 @@ import { AjustesProvider } from './../providers/ajustes/ajustes';
 export class MyApp {
   rootPage:any;
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private ajustesProvider: AjustesProvider) {
+  constructor(private platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private ajustesProvider: AjustesProvider) {
     platform.ready().then(() => {
 
       this.ajustesProvider.cargarStorage().then(()=>{
@@ -26,6 +26,14 @@ export class MyApp {
         } else {
           this.rootPage = HomePage
         }
+
+        this.platform.pause.subscribe( ()=> {
+          console.log('La aplicación se detrendra');
+        })
+
+        this.platform.resume.subscribe( ()=>{
+          console.log('La aplcación va a continuar');
+        })
         
         // Okay, so the platform is ready and our plugins are available.
         // Here you can do any higher level native things you might need.
