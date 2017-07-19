@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, AlertController } from 'ionic-angular';
 
 
 /**
@@ -15,7 +15,7 @@ import { NavController, NavParams } from 'ionic-angular';
 })
 export class Pagina2Page {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private alertCtrl: AlertController) {
   }
 
   irPagina3(){
@@ -42,16 +42,43 @@ export class Pagina2Page {
     console.log(' ionViewWillUnload');
   }
   ionViewCanEnter(){
-    console.log('ionViewCanEnter');
-    let numero = Math.round( Math.random() * 10);
+    // console.log('ionViewCanEnter');
+    // let numero = Math.round( Math.random() * 10);
 
-    console.log(numero);
-    if(numero >= 3 ){
-      return true;
-    } else {
-      return false;
-    }
+    // console.log(numero);
+    // if(numero >= 3 ){
+    //   return true;
+    // } else {
+    //   return false;
+    // }
+   
+    let promesa = new Promise((resolve,reject)=>{
+        
+        let confirm = this.alertCtrl.create({
+        title: 'Atención',
+        message: 'Seguro que quieres entrar enpagina 2?',
+        buttons: [
+          {
+            text: 'Cancelar',
+            handler: ()=> resolve( false )
+            
+          },
+          {
+            text: 'Aceptar',
+            handler:()=> resolve( true )
+          }
+        ]
+      });
+      confirm.present();
+
+    });
+
+    return promesa;
+
   }
+
+
+  
   ionViewCanLeave(){
     console.log('ionViewCanLeave');
 
